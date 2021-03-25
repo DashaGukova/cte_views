@@ -1,3 +1,5 @@
+USE AdventureWorks2019
+GO
 CREATE VIEW Person.vPerson AS 
 SELECT Title, FirstName, LastName, EmailAddress 
 FROM Person.Person, Person.EmailAddress
