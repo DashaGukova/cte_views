@@ -8,16 +8,17 @@ ON p.BusinessEntityID = e.BusinessEntityID;
 
 -----------------------------------
 
-WITH ctehr 
-	AS 
-	 (SELECT hr.BusinessEntityId, hr.NationalIdNumber, hr.JobTitle, p.FirstName, p.LastName
-	 FROM HumanResources.Employee AS hr
-	 JOIN Person.Person AS p ON hr.BusinessEntityId = p.BusinessEntityID),
-	 ctep
-	 AS
-	 (SELECT t.BusinessEntityId, t.NationalIdNumber, t.JobTitle, t.FirstName, t.LastName, pp.PhoneNumber
-	 FROM ctehr AS t
-	 JOIN Person.PersonPhone AS pp ON t.BusinessEntityId = pp.BusinessEntityID
+WITH ctep
+        AS 
+	 (SELECT BusinessEntityID, FirstName, LastName
+	  FROM Person.Person
+	 ),
+	 ctet
+	AS
+	 (SELECT BusinessEntityID, PhoneNumber
+	  FROM Person.PersonPhone
 	 )
-SELECT * 
-FROM ctep;
+SELECT hr.BusinessEntityId, hr.NationalIdNumber, hr.JobTitle, p.FirstName,p.LastName, t.PhoneNumber
+FROM HumanResources.Employee AS hr
+JOIN ctep AS p ON hr.BusinessEntityId = p.BusinessEntityID
+JOIN ctet AS t ON p.BusinessEntityID = t.BusinessEntityID
